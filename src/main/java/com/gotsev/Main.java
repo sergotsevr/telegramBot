@@ -12,7 +12,6 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
  * @date 20 of June of 2015
  */
 public class Main {
-    private static final String LOGTAG = "MAIN";
 
     public static void main(String[] args) {
 
@@ -23,6 +22,8 @@ public class Main {
                 // Register long polling bots. They work regardless type of TelegramBotsApi we are creating
                 telegramBotsApi.registerBot(new TestHandler());
             } catch (TelegramApiException e) {
+
+                e.printStackTrace();
             }
         } catch (Exception e) {
 

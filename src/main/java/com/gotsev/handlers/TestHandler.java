@@ -101,7 +101,7 @@ public class TestHandler extends TelegramLongPollingBot {
                 sendQuestion(questionNumber, test, chatId);
             }
         }
-        if (questionsSize == questionNumber) {
+        if (questionsSize.equals(questionNumber)) {
             sendMenuButton(chatId);
         }
     }

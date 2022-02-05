@@ -13,8 +13,6 @@ public class TestServiceHardCodedForTest implements TestService{
     public TestServiceHardCodedForTest(){
         FirstTest firstTest = new FirstTest("Базовые вопросы");
         this.tests.add(firstTest);
-        //this.tests.put("Data types, variables, operators, loops, arrays", Arrays.asList(firstTest));
-        //this.sections.add("ООП)");
 
     }
 

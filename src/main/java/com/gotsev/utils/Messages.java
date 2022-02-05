@@ -1,5 +1,8 @@
 package com.gotsev.utils;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class Messages {
 
     public static final String GREETING = "hello there General Kenobi";
