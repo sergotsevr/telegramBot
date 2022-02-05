@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: DEBUG
+  path: Bot/
+  config: config/logback.xml
+application:
+  name: TelegramBot
