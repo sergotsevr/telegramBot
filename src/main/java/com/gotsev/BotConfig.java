@@ -8,13 +8,6 @@ package com.gotsev;
  */
 public class BotConfig {
 
-    public static final String COMMANDS_TOKEN = "1443504136:AAHGGzJIiJERlha9OVzFNcE6uv-fszc5eOc";
-    public static final String COMMANDS_USER = "posterImageBot";
-
-    public static final String ELEKTROLLART_TOKEN = "1467972965:AAEyzRYxbcyCZcJlVKTTk0hP55MXgY9dV5o";
-    public static final String ELEKTROLLART_USER = "KeysBot";
-
-
-    public static final String TEST_TOKEN = "1467972965:AAEyzRYxbcyCZcJlVKTTk0hP55MXgY9dV5o";
+    public static final String TEST_TOKEN = "token";
     public static final String TEST_USER = "TestBot";
 }
