@@ -26,9 +26,6 @@ import static com.gotsev.utils.Messages.*;
 @Slf4j
 public class TestHandler extends TelegramLongPollingBot {
 
-    public TestHandler() {
-
-    }
 
 
     @Override
