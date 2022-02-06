@@ -45,7 +45,7 @@ public class TestHandler extends TelegramLongPollingBot {
                 } else {
                     log.debug("message command to start - " + message.getText());
                 }
-                log.info("get update");
+                log.debug("get update");
             } else {
                 log.debug("message has no text");
             }
@@ -90,11 +90,11 @@ public class TestHandler extends TelegramLongPollingBot {
         if (questionsSize.equals(questionNumber)) {
             Question question = test.getQuestions().get(questionNumber);
             if (question.checkAnswer(data[2])) {
-                sendTextMessage(chatId, "Success!");
+                sendTextMessage(chatId, SUCCESS_MESSAGE);
                 sendMenuButton(chatId);
             }
             else {
-                sendTextMessage(chatId, "Wrong answer!");
+                sendTextMessage(chatId, MISTAKE_MESSAGE);
                 sendQuestion(questionNumber, test, chatId);
             }
         }
@@ -102,13 +102,13 @@ public class TestHandler extends TelegramLongPollingBot {
             Question question = test.getQuestions().get(questionNumber);
 
             if (!isNullOrEmpty(callbackQuery.getMessage().getText()) && question.checkAnswer(data[2])) {
-                sendTextMessage(chatId, "Success!");
+                sendTextMessage(chatId, SUCCESS_MESSAGE);
                 sendQuestion(++questionNumber, test, chatId);
             } else if (isNullOrEmpty(callbackQuery.getMessage().getText())){
                 sendQuestion(questionNumber, test, chatId);
             }
             else {
-                sendTextMessage(chatId, "Wrong answer!");
+                sendTextMessage(chatId, MISTAKE_MESSAGE);
                 sendQuestion(questionNumber, test, chatId);
             }
         }
