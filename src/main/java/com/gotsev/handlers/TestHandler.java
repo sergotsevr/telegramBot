@@ -87,6 +87,17 @@ public class TestHandler extends TelegramLongPollingBot {
         Long chatId = callbackQuery.getMessage().getChatId();
         Integer questionsSize =test.getQuestions().size();
         questionsSize--;
+        if (questionsSize.equals(questionNumber)) {
+            Question question = test.getQuestions().get(questionNumber);
+            if (question.checkAnswer(data[2])) {
+                sendTextMessage(chatId, "Success!");
+                sendMenuButton(chatId);
+            }
+            else {
+                sendTextMessage(chatId, "Wrong answer!");
+                sendQuestion(questionNumber, test, chatId);
+            }
+        }
         if (questionsSize > questionNumber) {
             Question question = test.getQuestions().get(questionNumber);
 
@@ -101,9 +112,7 @@ public class TestHandler extends TelegramLongPollingBot {
                 sendQuestion(questionNumber, test, chatId);
             }
         }
-        if (questionsSize.equals(questionNumber)) {
-            sendMenuButton(chatId);
-        }
+
     }
 
     private void sendQuestion(Integer questionNumber, Test test, Long chatId) {
