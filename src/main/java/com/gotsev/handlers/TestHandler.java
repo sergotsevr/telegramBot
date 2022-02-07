@@ -3,6 +3,7 @@ package com.gotsev.handlers;
 import com.gotsev.models.interfaces.Question;
 import com.gotsev.models.interfaces.Test;
 import com.gotsev.services.TestService;
+import com.gotsev.services.TestServiceFromJson;
 import com.gotsev.services.TestServiceHardCodedForTest;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -26,7 +27,8 @@ import static com.gotsev.utils.Messages.*;
 @Slf4j
 public class TestHandler extends TelegramLongPollingBot {
 
-
+    //TestService service = new TestServiceHardCodedForTest();
+    TestService service = new TestServiceFromJson();
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -66,7 +68,7 @@ public class TestHandler extends TelegramLongPollingBot {
         }
     }
     private void sendFirstQuestion(CallbackQuery callbackQuery, String[] data){
-        TestService service = new TestServiceHardCodedForTest();
+
         Test test = service.getTestsFromSection(data[1]).get(0);
         Integer questionNumber = Integer.parseInt(data[2]);
         Long chatId = callbackQuery.getMessage().getChatId();
@@ -77,8 +79,6 @@ public class TestHandler extends TelegramLongPollingBot {
     }
     private  void  checkAndSendNextQuestion(CallbackQuery callbackQuery, String[] data) {
 
-
-        TestService service = new TestServiceHardCodedForTest();
         Test test = service.getTestsFromSection(data[1]).get(0);
         Integer questionNumber = Integer.parseInt(data[3]);
         Long chatId = callbackQuery.getMessage().getChatId();
@@ -113,8 +113,8 @@ public class TestHandler extends TelegramLongPollingBot {
     }
 
     private void sendQuestion(Integer questionNumber, Test test, Long chatId) {
-
-        Question question = (Question) test.getQuestions().get(questionNumber);
+        List<? extends Question> questions = test.getQuestions();
+        Question question = questions.get(questionNumber);
         SendMessage questionMessage = new SendMessage();
         questionMessage.setChatId(chatId.toString());
         questionMessage.setReplyMarkup(buttonOptions(question, test));
@@ -177,11 +177,11 @@ public class TestHandler extends TelegramLongPollingBot {
     }
 
     private InlineKeyboardMarkup mainOptions() {
-        TestService testService = new TestServiceHardCodedForTest();
+
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
 
-        for (String section : testService.getSections()) {
+        for (String section : service.getSections()) {
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(section);

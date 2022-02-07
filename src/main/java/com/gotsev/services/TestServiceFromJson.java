@@ -15,14 +15,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Slf4j
 public class TestServiceFromJson implements TestService{
 
-    private String PATH_TO_TESTS = "src/main/resources/tests";
-    private ObjectMapper objectMapper = new ObjectMapper();
-    ClassLoader classLoader = getClass().getClassLoader();
+    private static final String PATH_TO_TESTS = "src/main/resources/tests";
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     List<Test> tests = new ArrayList<>();
 
@@ -33,19 +33,20 @@ public class TestServiceFromJson implements TestService{
                     .filter(Files::isRegularFile)
                     .forEach(pathToTest -> tests.add(readTest(pathToTest)));
         }
+        log.info("loaded tests from sections:");
         for (Test test : tests){
-            System.out.println(test.getSection());
+            log.info(test.getSection());
         }
     }
 
     @Override
     public List<String> getSections() {
-        return null;
+        return tests.stream().map(Test::getSection).collect(Collectors.toList());
     }
 
     @Override
     public List<Test> getTestsFromSection(String section) {
-        return null;
+        return tests.stream().filter(test -> test.getSection().equals(section)).collect(Collectors.toList());
     }
 
     @SneakyThrows

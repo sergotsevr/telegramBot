@@ -15,10 +15,10 @@ import java.util.List;
 public class FirstTest implements Test {
 
     private String section = "";
-    private List<? super Question> questions = new ArrayList<>();
+    private List<QuestionForJava> questions = new ArrayList<>();
 
     public FirstTest(String section){
-        QuestionForJava firstQuestion = new QuestionForJava();
+        /*QuestionForJava firstQuestion = new QuestionForJava();
         firstQuestion.setNumber(0);
         firstQuestion.setStatement("First Question");
         questions.add(firstQuestion);
@@ -30,7 +30,7 @@ public class FirstTest implements Test {
         thirdQuestion.setStatement("third Question");
         thirdQuestion.setNumber(2);
         questions.add(thirdQuestion);
-        this.section=section;
+        this.section=section;*/
     }
 
 
