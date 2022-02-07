@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -52,7 +53,7 @@ public class TestServiceFromJson implements TestService{
     @SneakyThrows
     private Test readTest(Path path){
         FileInputStream fis = new FileInputStream(path.toString());
-        String data = IOUtils.toString(fis, "UTF-8");
+        String data = IOUtils.toString(fis, StandardCharsets.UTF_8);
         return objectMapper.readValue(data, FirstTest.class);
     }
 

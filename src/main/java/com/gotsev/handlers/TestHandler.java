@@ -38,7 +38,7 @@ public class TestHandler extends TelegramLongPollingBot {
             if (message.hasText()) {
 
                 if (message.getText().equals("/start")) {
-                    prepareAndSendMenuMessage(message.getChatId(), String.format(GREETING, message.getFrom().getUserName()) + "\n" + CHOOSE_SECTION);
+                    prepareAndSendMenuMessage(message.getChatId(), String.format(GREETING, message.getFrom().getFirstName()) + "\n" + CHOOSE_SECTION);
                 } else {
                     log.debug("message command to start - " + message.getText());
                 }
