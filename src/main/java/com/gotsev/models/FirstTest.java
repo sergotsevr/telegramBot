@@ -3,15 +3,19 @@ package com.gotsev.models;
 import com.gotsev.models.interfaces.Question;
 import com.gotsev.models.interfaces.Test;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class FirstTest implements Test {
 
-    String section;
-    List<Question> questions = new ArrayList<>();
+    private String section = "";
+    private List<? super Question> questions = new ArrayList<>();
 
     public FirstTest(String section){
         QuestionForJava firstQuestion = new QuestionForJava();

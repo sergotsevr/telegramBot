@@ -75,7 +75,7 @@ public class TestHandler extends TelegramLongPollingBot {
             sendQuestion(0, test, chatId);
         }
     }
-    private void checkAndSendNextQuestion(CallbackQuery callbackQuery, String[] data) {
+    private  void  checkAndSendNextQuestion(CallbackQuery callbackQuery, String[] data) {
 
 
         TestService service = new TestServiceHardCodedForTest();
@@ -85,7 +85,7 @@ public class TestHandler extends TelegramLongPollingBot {
         Integer questionsSize =test.getQuestions().size();
         questionsSize--;
         if (questionsSize.equals(questionNumber)) {
-            Question question = test.getQuestions().get(questionNumber);
+            Question question = (Question) test.getQuestions().get(questionNumber);
             if (question.checkAnswer(data[2])) {
                 sendTextMessage(chatId, SUCCESS_MESSAGE);
                 sendMenuButton(chatId);
@@ -96,7 +96,7 @@ public class TestHandler extends TelegramLongPollingBot {
             }
         }
         if (questionsSize > questionNumber) {
-            Question question = test.getQuestions().get(questionNumber);
+            Question question = (Question) test.getQuestions().get(questionNumber);
 
             if (!isNullOrEmpty(callbackQuery.getMessage().getText()) && question.checkAnswer(data[2])) {
                 sendTextMessage(chatId, SUCCESS_MESSAGE);
@@ -114,7 +114,7 @@ public class TestHandler extends TelegramLongPollingBot {
 
     private void sendQuestion(Integer questionNumber, Test test, Long chatId) {
 
-        Question question = test.getQuestions().get(questionNumber);
+        Question question = (Question) test.getQuestions().get(questionNumber);
         SendMessage questionMessage = new SendMessage();
         questionMessage.setChatId(chatId.toString());
         questionMessage.setReplyMarkup(buttonOptions(question, test));

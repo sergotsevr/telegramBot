@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Test {
 
-    List<Question> getQuestions();
+    List<? super Question> getQuestions();
 
     String getSection();
 }
