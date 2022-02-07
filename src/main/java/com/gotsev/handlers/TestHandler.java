@@ -4,7 +4,6 @@ import com.gotsev.models.interfaces.Question;
 import com.gotsev.models.interfaces.Test;
 import com.gotsev.services.TestService;
 import com.gotsev.services.TestServiceFromJson;
-import com.gotsev.services.TestServiceHardCodedForTest;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -27,7 +26,6 @@ import static com.gotsev.utils.Messages.*;
 @Slf4j
 public class TestHandler extends TelegramLongPollingBot {
 
-    //TestService service = new TestServiceHardCodedForTest();
     TestService service = new TestServiceFromJson();
 
     @Override
@@ -40,7 +38,7 @@ public class TestHandler extends TelegramLongPollingBot {
             if (message.hasText()) {
 
                 if (message.getText().equals("/start")) {
-                    prepareAndSendMenuMessage(message.getChatId(), GREETING + "\n" + CHOOSE_SECTION);
+                    prepareAndSendMenuMessage(message.getChatId(), String.format(GREETING, message.getFrom().getUserName()) + "\n" + CHOOSE_SECTION);
                 } else {
                     log.debug("message command to start - " + message.getText());
                 }
@@ -67,30 +65,27 @@ public class TestHandler extends TelegramLongPollingBot {
             }
         }
     }
-    private void sendFirstQuestion(CallbackQuery callbackQuery, String[] data){
+
+    private void sendFirstQuestion(CallbackQuery callbackQuery, String[] data) {
 
         Test test = service.getTestsFromSection(data[1]).get(0);
-        Integer questionNumber = Integer.parseInt(data[2]);
         Long chatId = callbackQuery.getMessage().getChatId();
-
-        if (test.getQuestions().size() > questionNumber) {
-            sendQuestion(0, test, chatId);
-        }
+        sendQuestion(0, test, chatId);
     }
-    private  void  checkAndSendNextQuestion(CallbackQuery callbackQuery, String[] data) {
+
+    private void checkAndSendNextQuestion(CallbackQuery callbackQuery, String[] data) {
 
         Test test = service.getTestsFromSection(data[1]).get(0);
         Integer questionNumber = Integer.parseInt(data[3]);
         Long chatId = callbackQuery.getMessage().getChatId();
-        Integer questionsSize =test.getQuestions().size();
+        Integer questionsSize = test.getQuestions().size();
         questionsSize--;
         if (questionsSize.equals(questionNumber)) {
-            Question question = (Question) test.getQuestions().get(questionNumber);
+            Question question = test.getQuestions().get(questionNumber);
             if (question.checkAnswer(data[2])) {
                 sendTextMessage(chatId, SUCCESS_MESSAGE);
                 sendMenuButton(chatId);
-            }
-            else {
+            } else {
                 sendTextMessage(chatId, MISTAKE_MESSAGE);
                 sendQuestion(questionNumber, test, chatId);
             }
@@ -101,10 +96,9 @@ public class TestHandler extends TelegramLongPollingBot {
             if (!isNullOrEmpty(callbackQuery.getMessage().getText()) && question.checkAnswer(data[2])) {
                 sendTextMessage(chatId, SUCCESS_MESSAGE);
                 sendQuestion(++questionNumber, test, chatId);
-            } else if (isNullOrEmpty(callbackQuery.getMessage().getText())){
+            } else if (isNullOrEmpty(callbackQuery.getMessage().getText())) {
                 sendQuestion(questionNumber, test, chatId);
-            }
-            else {
+            } else {
                 sendTextMessage(chatId, MISTAKE_MESSAGE);
                 sendQuestion(questionNumber, test, chatId);
             }
@@ -153,7 +147,7 @@ public class TestHandler extends TelegramLongPollingBot {
         }
     }
 
-    private void prepareAndSendMenuMessage(Long chatId, String text){
+    private void prepareAndSendMenuMessage(Long chatId, String text) {
         SendMessage greetingMessage = new SendMessage();
         greetingMessage.setChatId(chatId.toString());
         greetingMessage.setReplyMarkup(mainOptions());
@@ -199,7 +193,7 @@ public class TestHandler extends TelegramLongPollingBot {
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
         InlineKeyboardButton button = new InlineKeyboardButton();
         button.setText("MAIN MENU");
-        button.setCallbackData(MENU.toString() + ":testFinished:1" );
+        button.setCallbackData(MENU.toString() + ":testFinished:1");
         rowInline.add(button);
         rowsInline.add(rowInline);
         markupInline.setKeyboard(rowsInline);
